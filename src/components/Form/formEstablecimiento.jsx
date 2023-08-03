@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { post } from "../../services/services";
+import { postEstablecimiento } from "../../services/services";
+import Swal from "sweetalert2";
 
-export default function Form() {
+export default function FormEstablecimiento() {
   const [inputData, setInputData] = useState({
     nombre: "",
     tipoEstablecimiento: "",
@@ -42,8 +43,23 @@ export default function Form() {
 
     setShowValidation("was-validated");
     console.log(inputData);
-    const data = await post(inputData);
+    const data = await postEstablecimiento(inputData);
     console.log(data);
+
+    if (!data) {
+      Swal.fire({
+        title: "Todo Mal",
+        text: "Hubo un error",
+        icon: "error",
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: "Todo ok",
+      text: "Establecimiento creado exitosamente",
+      icon: "success",
+    });
   };
 
   return (
@@ -69,7 +85,7 @@ export default function Form() {
             </div>
             <div className="valid-feedback">Bien hecho</div>
             <div>
-              <input
+              {/* <input
                 required
                 className="form-control mt-3"
                 value={inputData.tipoEstablecimiento}
@@ -77,7 +93,18 @@ export default function Form() {
                 placeholder="Escribe el tipo de Establecimiento BAR o DISCOTECA"
                 type="text"
                 name="tipoEstablecimiento"
-              />
+              /> */}
+
+              <select
+                required
+                name="tipoEstablecimiento"
+                className="form-select mt-3"
+                onChange={handleInputChange}
+              >
+                <option value="">Seleccionar</option>
+                <option value="BAR">bar</option>
+                <option value="DISCOTECA">discoteca</option>
+              </select>
             </div>
             <div>
               <input
@@ -180,9 +207,12 @@ export default function Form() {
             </div>
 
             <div>
+              <p className="mt-3">
+                Sube una imagen del logo de tu establecimiento:
+              </p>
               <input
                 required
-                className="form-control mt-3"
+                className="form-control "
                 // value={inputData.fotoLogo}
                 onChange={handleInputChange}
                 type="file"
@@ -191,9 +221,12 @@ export default function Form() {
               />
             </div>
             <div>
+              <p className="mt-3">
+                Sube una imagen del interior o exterior de tu establecimiento:
+              </p>
               <input
                 required
-                className="form-control mt-3"
+                className="form-control "
                 // value={inputData.fotoLocal1}
                 onChange={handleInputChange}
                 type="file"
@@ -202,9 +235,12 @@ export default function Form() {
               />
             </div>
             <div>
+              <p className="mt-3">
+                Sube una imagen del interior o exterior de tu establecimiento:
+              </p>
               <input
                 required
-                className="form-control mt-3"
+                className="form-control "
                 // value={inputData.fotoLocal2}
                 onChange={handleInputChange}
                 type="file"
@@ -213,9 +249,12 @@ export default function Form() {
               />
             </div>
             <div>
+              <p className="mt-3">
+                Sube una imagen del interior o exterior de tu establecimiento:
+              </p>
               <input
                 required
-                className="form-control mt-3"
+                className="form-control "
                 // value={inputData.fotoLocal3}
                 onChange={handleInputChange}
                 type="file"
@@ -224,12 +263,12 @@ export default function Form() {
               />
             </div>
             <div>
-              <p>
+              <p className="mt-3">
                 Sube una imagen del interior o exterior de tu establecimiento:
               </p>
               <input
                 required
-                className="form-control mt-3"
+                className="form-control"
                 // value={inputData.fotoLocal4}
                 onChange={handleInputChange}
                 type="file"
